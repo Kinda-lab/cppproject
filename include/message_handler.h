@@ -2,17 +2,18 @@
 #ifndef MESSAGE_HANDLER_H
 #define MESSAGE_HANDLER_H
 
+#include "protocol.h"
+#include "connection.h"
 #include <memory>
 #include <string>
-
-class Connection; // forward declaration
 
 class MessageHandler {
 public:
   explicit MessageHandler(std::shared_ptr<Connection> conn);
 
-  void sendByte(unsigned char code);
-  unsigned char readByte();
+  void sendCode(Protocol code); // for the protocal commands
+  void sendCode(unsigned char code); // for raw bytes (if ever needed)
+  unsigned char readCode();
 
   void sendNumber(int value);
   int readNumber();

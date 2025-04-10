@@ -2,6 +2,7 @@
 #include "message_handler.h"
 #include "connection.h"
 #include "connectionclosedexception.h"
+
 #include <stdexcept>
 #include <string>
 
@@ -11,11 +12,16 @@
 MessageHandler::MessageHandler(std::shared_ptr<Connection> conn)
   : conn(conn) {}
 
-void MessageHandler::sendByte(unsigned char code) {
-  conn->write(code);
+void MessageHandler::sendCode(Protocol code) {
+  // Cast enum to underlying byte value
+  conn->write(static_cast<unsigned char>(code));
 }
 
-unsigned char MessageHandler::readByte() {
+void MessageHandler::sendCode(unsigned char byte) {
+  conn->write(byte);
+}
+
+unsigned char MessageHandler::readCode() {
   unsigned char byte = conn->read();
   return byte;
 }

@@ -8,8 +8,9 @@
 
 class InMemoryDatabase : public Database {
 private:
- std::vector<Newsgroup> newsgroups; // newsgroup in the database
- std::map<int, std::vector<Article>> articles; // articles in newsgroup with a certin newsgroup id
+ std::map<int, Newsgroup> newsgroups; // maps group ID to newsgroup in the database
+ std::map<int, std::vector<Article>> articles; // maps group ID to articles in newsgroup with a certin newsgroup id
+ 
 
 public:
    // Newsgroups
