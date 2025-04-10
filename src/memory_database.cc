@@ -34,7 +34,6 @@ bool InMemoryDatabase::deleteNewsgroup(int id) {
 }
  
 std::vector<ArticleSummary> InMemoryDatabase::listArticles(int ng_id) const {
-
 }
 
 bool InMemoryDatabase::createArticle(int ng_id, const std::string& title, const std::string& author, const std::string& text) {
