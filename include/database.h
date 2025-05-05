@@ -32,11 +32,13 @@ public:
 
   // Newsgroups
   virtual std::vector<Newsgroup> listNewsgroups() const = 0;
+  virtual int getNextNewsgroupId() const = 0;
   virtual bool createNewsgroup(const std::string& name) = 0;
   virtual bool deleteNewsgroup(int id) = 0;
 
   // Articles
   virtual std::vector<ArticleSummary> listArticles(int ng_id) const = 0;
+  virtual int getNextArticleId() const = 0;
   virtual bool createArticle(int ng_id, const std::string& title, const std::string& author, const std::string& text) = 0;
   virtual bool deleteArticle(int ng_id, int art_id) = 0;
   virtual Article getArticle(int ng_id, int art_id) const = 0;

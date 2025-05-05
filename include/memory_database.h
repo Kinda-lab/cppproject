@@ -15,11 +15,13 @@ private:
 public:
    // Newsgroups
    std::vector<Newsgroup> listNewsgroups() const override;
+   int InMemoryDatabase::getNextNewsgroupId() const override;
    bool createNewsgroup(const std::string& name) override;
    bool deleteNewsgroup(int id) override;
  
    // Articles
    std::vector<ArticleSummary> listArticles(int ng_id) const override;
+   int getNextArticleId() const override;
    bool createArticle(int ng_id, const std::string& title, const std::string& author, const std::string& text) override;
    bool deleteArticle(int ng_id, int art_id) override;
    Article getArticle(int ng_id, int art_id) const override;
