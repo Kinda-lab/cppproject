@@ -224,7 +224,7 @@ bool createArticle(std::shared_ptr<Connection> conn) {
         mh.sendString(text);
         mh.sendCode(Protocol::COM_END);
 
-        if(mh.receiveCode() != Protocol::ANS_CREATE_NG) {
+        if(mh.receiveCode() != Protocol::ANS_CREATE_ART) {
             cerr << "Unexpected response, expected ANS_CREATE_NG\n";
             return 1;
         }
@@ -373,7 +373,7 @@ int app(std::shared_ptr<Connection> conn) {
 
         try {
             int commandCode = std::stoi(input);
-            if(commandCode < 1 || commandCode > 7) {
+            if(commandCode < 1 || commandCode > 8) {
                 cout << "Not a valid number.\n";
                 continue;
             }
