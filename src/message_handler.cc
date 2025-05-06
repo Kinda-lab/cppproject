@@ -31,6 +31,7 @@ unsigned char MessageHandler::readCode() {
 }
 
 void MessageHandler::sendNumber(int value) {
+  sendCode(Protocol::PAR_NUM);
   conn->write((value >> 24) & 0xFF);
   conn->write((value >> 16) & 0xFF);
   conn->write((value >> 8) & 0xFF);
@@ -38,6 +39,11 @@ void MessageHandler::sendNumber(int value) {
 }
 
 int MessageHandler::readNumber() {
+
+  if(receiveCode() != Protocol::PAR_NUM) {
+    throw ConnectionClosedException();
+  }
+
   unsigned char b1 = conn->read();
   unsigned char b2 = conn->read();
   unsigned char b3 = conn->read();
@@ -46,6 +52,7 @@ int MessageHandler::readNumber() {
 }
 
 void MessageHandler::sendString(const std::string& str) {
+  sendCode(Protocol::PAR_STRING);
   sendNumber(str.size());
   for (char c : str) {
     conn->write(c);
@@ -53,6 +60,9 @@ void MessageHandler::sendString(const std::string& str) {
 }
 
 std::string MessageHandler::readString() {
+  if(receiveCode() != Protocol::PAR_STRING) {
+    throw ConnectionClosedException();
+  }
   int length = readNumber();
   std::string result;
   for (int i = 0; i < length; ++i) {
@@ -60,3 +70,5 @@ std::string MessageHandler::readString() {
   }
   return result;
 }
+
+
