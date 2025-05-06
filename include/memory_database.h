@@ -8,9 +8,12 @@
 
 class InMemoryDatabase : public Database {
 private:
- std::map<int, Newsgroup> newsgroups; // maps group ID to newsgroup in the database
- std::map<int, std::vector<Article>> articles; // maps group ID to articles in newsgroup with a certin newsgroup id
- 
+   int next_group_id = 1; // Counter Newsgroup ID
+   int next_article_id = 1; // Counter Article ID
+
+   std::map<int, Newsgroup> newsgroups; // maps group ID to newsgroup in the database
+   std::map<int, std::vector<Article>> articles_by_ng; // maps group ID to articles in newsgroup with a certin newsgroup id
+   
 
 public:
    // Newsgroups
