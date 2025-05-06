@@ -153,10 +153,10 @@ int deleteNewsgroup(std::shared_ptr<Connection> conn) {
 int listArticles(std::shared_ptr<Connection> conn) { //list articles IN A NEWSGROUP
     try {
         MessageHandler mh(conn);
-        std::string id;
-        std::getline(std::cin >> std::ws, id); // ws discards leading whitespace from an input stream
+        int id;
+        std::cin >> id;        
         mh.sendCode(Protocol::COM_LIST_ART);
-        mh.sendString(id); // newsgroup id is sent as parameter
+        mh.sendNumber(id); // newsgroup id is sent as parameter
         mh.sendCode(Protocol::COM_END);
 
         if(mh.receiveCode() != Protocol::ANS_LIST_ART) {
@@ -372,13 +372,13 @@ int app(std::shared_ptr<Connection> conn) {
         std::getline(std::cin, input);
 
         try {
-            int commandCode = std::stoi(input);
+            commandCode = std::stoi(input);
             if(commandCode < 1 || commandCode > 8) {
                 cout << "Not a valid number.\n";
                 continue;
             }
             break;
-        } catch (ConnectionClosedException&) {
+        } catch (...) {
                 cout << "No reply from server. Exiting." << endl;
                 return 1;
         }
@@ -402,10 +402,12 @@ int app(std::shared_ptr<Connection> conn) {
         return getArticle(conn);
     case 8:
         return 0;
+    default:
+        return 1;
     }
 }
 
 int main(int argc, char* argv[]) {
-        auto conn = init(argc, argv);
-        return app(conn);
+    auto conn = init(argc, argv);
+    return app(conn);
 }

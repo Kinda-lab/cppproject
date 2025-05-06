@@ -10,7 +10,11 @@
 #define ENSURE_READ(x) if (!(x)) throw ConnectionClosedException();
 
 MessageHandler::MessageHandler(std::shared_ptr<Connection> conn)
-  : conn(conn) {}
+  : conn(conn) {
+  if (!conn || !conn->isConnected()) {
+    throw std::invalid_argument("Invalid connection");
+  }
+}
 
 void MessageHandler::sendCode(Protocol code) {
   // Cast enum to underlying byte value

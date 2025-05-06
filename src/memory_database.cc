@@ -6,8 +6,6 @@
 
 using namespace std;
 
-
-// 
 std::vector<Newsgroup> InMemoryDatabase::listNewsgroups() const {
     std::vector<Newsgroup> list;
     for(const auto& group : newsgroups) {
@@ -32,7 +30,7 @@ bool InMemoryDatabase::createNewsgroup(const std::string& name) { // title of th
 // Erases the newsgroup and its articles
 bool InMemoryDatabase::deleteNewsgroup(int id) {
     auto found = newsgroups.find(id);
-    if (found != newsgroups.end()) return false;
+    if (found == newsgroups.end()) return false; //changed != to ==
     newsgroups.erase(found);
     articles_by_ng.erase(id); // Also erase its articles
     return true;
@@ -42,14 +40,14 @@ bool InMemoryDatabase::deleteNewsgroup(int id) {
 // Returns list of all articles in the given newsgroup
 //  Every element in the list contains article ID and title of the article
 std::vector<ArticleSummary> InMemoryDatabase::listArticles(int ng_id) const {
-    std::vector<ArticleSummary> result;
+    std::vector<ArticleSummary> summaries;
     auto it = articles_by_ng.find(ng_id);
-    if (it == articles_by_ng.end()) return result; // Speciel case: Returns empty vector if no articles is published
+    if (it == articles_by_ng.end()) return summaries;
 
-    for (const auto& art : it->second) {
-        result.push_back({art.id, art.title});
+    for (const Article& article : it->second) {
+        summaries.push_back({article.id, article.title});  // Only store ID and title
     }
-    return result;
+    return summaries;
 }
 
 // Assigns/publishes an article to a newsgroup

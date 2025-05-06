@@ -12,7 +12,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $*.d
 # -g is for debugging.
 CPPFLAGS =  -Iinclude
 CXXFLAGS =  -O2 -Wall -Wextra -pedantic-errors -Wold-style-cast 
-CXXFLAGS += -std=c++11 
+CXXFLAGS += -std=c++14
 CXXFLAGS += -g
 CXXFLAGS += $(DEPFLAGS)
 LDFLAGS =   -g -Llib
@@ -40,7 +40,7 @@ src/myserver.o: src/myserver.cc
 	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/myserver.o src/myserver.cc
 
 
-src/message_handler.o: src/message_handler.cc src/message_handler.h include/protocol.h
+src/message_handler.o: src/message_handler.cc include/message_handler.h include/protocol.h
 	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/message_handler.o src/message_handler.cc
 
 src/client: src/client.o src/connection.o src/message_handler.o
@@ -49,7 +49,7 @@ src/client: src/client.o src/connection.o src/message_handler.o
 src/myserver: src/connection.o src/server.o src/myserver.o src/message_handler.o src/memory_database.o
 	$(CXX) $(CXXFLAGS) -o myserver src/connection.o src/server.o src/myserver.o src/message_handler.o src/memory_database.o
 
-src/memory_database.o: src/memory_database.cc src/memory_database.h src/database.h src/newsgroup.h
+src/memory_database.o: src/memory_database.cc include/memory_database.h include/database.h
 	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/memory_database.o src/memory_database.cc
 
 # Phony targets
