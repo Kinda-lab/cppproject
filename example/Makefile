@@ -24,7 +24,7 @@ LDFLAGS   = -g -L../lib
 LDLIBS = -lclientserver
 
 # Targets
-PROGS = myserver myclient
+PROGS = myserver myclient 
 
 all: $(PROGS)
 

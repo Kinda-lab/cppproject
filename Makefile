@@ -22,16 +22,35 @@ LDFLAGS =   -g -Llib
 
 # Targets
 
-all: lib/libclientserver.a
-	make -C example
 
-# Create the library; ranlib is for Darwin (OS X) and maybe other systems.
-# Doesn't seem to do any damage on other systems.
+# Default target
+all: src/myserver src/client
 
-lib/libclientserver.a: src/connection.o src/server.o
-	mkdir -p lib
-	ar rv lib/libclientserver.a  src/connection.o src/server.o
-	ranlib lib/libclientserver.a
+# Object files compilation rules
+src/connection.o: src/connection.cc include/connection.h
+	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/connection.o src/connection.cc
+
+src/server.o: src/server.cc include/server.h
+	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/server.o src/server.cc
+
+src/client.o: src/client.cc
+	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/client.o src/client.cc
+
+src/myserver.o: src/myserver.cc
+	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/myserver.o src/myserver.cc
+
+
+src/message_handler.o: src/message_handler.cc src/message_handler.h include/protocol.h
+	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/message_handler.o src/message_handler.cc
+
+src/client: src/client.o src/connection.o src/message_handler.o
+	$(CXX) $(CXXFLAGS) -o client src/client.o src/connection.o src/message_handler.o
+
+src/myserver: src/connection.o src/server.o src/myserver.o src/message_handler.o src/memory_database.o
+	$(CXX) $(CXXFLAGS) -o myserver src/connection.o src/server.o src/myserver.o src/message_handler.o src/memory_database.o
+
+src/memory_database.o: src/memory_database.cc src/memory_database.h src/database.h src/newsgroup.h
+	$(CXX) $(CXXFLAGS) -Iinclude -c -o src/memory_database.o src/memory_database.cc
 
 # Phony targets
 .PHONY: all clean distclean
