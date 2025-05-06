@@ -24,11 +24,7 @@ struct Article {
 
 class Database {
 public:
-  //using Newsgroup = std::pair<int, std::string>; // id, name
-  //using ArticleSummary = std::pair<int, std::string>; // id, title
-  //using Article = std::tuple<std::string, std::string, std::string>; // title, author, text
-
-  virtual ~Database() {}
+  virtual ~Database() = default;
 
   // Newsgroups
   virtual std::vector<Newsgroup> listNewsgroups() const = 0;
