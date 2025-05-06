@@ -13,6 +13,7 @@ public:
 
   void sendCode(Protocol code); // for the protocal commands
   void sendCode(unsigned char code); // for raw bytes (if ever needed)
+  Protocol receiveCode();
   unsigned char readCode();
 
   void sendNumber(int value);

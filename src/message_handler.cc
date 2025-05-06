@@ -21,6 +21,10 @@ void MessageHandler::sendCode(unsigned char byte) {
   conn->write(byte);
 }
 
+Protocol MessageHandler::receiveCode() {
+  return static_cast<Protocol>(readCode());
+}
+
 unsigned char MessageHandler::readCode() {
   unsigned char byte = conn->read();
   return byte;
